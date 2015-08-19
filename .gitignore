@@ -1,0 +1,28 @@
+#ignore all bin directories
+.DS_Store
+*.apk
+*.ap_
+
+*.dex
+
+*.class
+*.cache
+
+bin/
+gen/
+
+
+local.properties
+
+.gradle
+build/
+# Ignore Gradle GUI config
+gradle-app.setting
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+.idea/
+
+*.iml
+
+
