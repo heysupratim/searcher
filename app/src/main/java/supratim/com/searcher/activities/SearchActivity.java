@@ -36,7 +36,9 @@ public class SearchActivity extends AppCompatActivity implements TwitterSearchRe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.slide_up,R.anim.abc_fade_out);
         setContentView(R.layout.search_activity);
 
         final View view = findViewById(R.id.main_search_view);

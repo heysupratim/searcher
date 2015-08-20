@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android">
-<translate android:fromYDelta="+300%p" android:toYDelta="0"
+<translate android:fromYDelta="0" android:toYDelta="+300%p"
     android:duration="@android:integer/config_longAnimTime"
     android:interpolator="@android:interpolator/accelerate_cubic"/>
 <alpha android:fromAlpha="0.0" android:toAlpha="1.0"
