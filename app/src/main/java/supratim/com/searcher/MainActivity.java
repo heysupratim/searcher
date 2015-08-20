@@ -15,9 +15,9 @@ import android.widget.ImageButton;
 import supratim.com.searcher.activities.WebViewActivity;
 import supratim.com.searcher.utilites.UserPreferences;
 import supratim.com.searcher.utilites.Utilities;
-import twitter4j.AsyncTwitter;
-import twitter4j.AsyncTwitterFactory;
+import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //Twitter API Objects
-    private static AsyncTwitter twitter;
+    private static Twitter twitter;
     private static RequestToken requestToken;
 
 
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setOAuthConsumerSecret(consumerSecret);
 
         final Configuration configuration = builder.build();
-        final AsyncTwitterFactory factory = new AsyncTwitterFactory(configuration);
+        final TwitterFactory factory = new TwitterFactory(configuration);
         twitter = factory.getInstance();
 
 
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             requestToken = twitter.getOAuthRequestToken(callbackUrl);
 
             /**
-             *  Loading twitter login page on webview for authorization
+             *  webview for authorization
              *  Once authorized, results are received at onActivityResult
              *  */
             final Intent intent = new Intent(this, WebViewActivity.class);
