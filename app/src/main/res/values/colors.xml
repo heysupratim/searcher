@@ -3,5 +3,7 @@
     <color name="login_bg_color">#2154e8</color>
     <color name="login_button_color">#42bcff</color>
     <color name="login_button_color_pressed">#0999ff</color>
-    <color name="primaryDark">#0c58ff</color>
+    <color name="primaryDark">#2154e8</color>
+    <color name="search_view_bg">#212121</color>
+    <color name="search_view_status">#000000</color>
 </resources>

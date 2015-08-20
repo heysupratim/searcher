@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
+import supratim.com.searcher.activities.SearchActivity;
 import supratim.com.searcher.activities.WebViewActivity;
 import supratim.com.searcher.utilites.UserPreferences;
 import supratim.com.searcher.utilites.Utilities;
@@ -74,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
         //if the user Logged in , take to the search UI
         if(UserPreferences.getInstance(getApplicationContext()).isLoggedIn()){
-
+            Intent searchViewIntent = new Intent(this, SearchActivity.class);
+            startActivity(searchViewIntent);
         }
         else{
             login();
