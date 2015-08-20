@@ -2,6 +2,8 @@ package supratim.com.searcher.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -11,6 +13,9 @@ import twitter4j.Twitter;
 
 public class SearchActivity extends AppCompatActivity {
 
+    private LinearLayoutManager mLayoutManager;
+    private RecyclerView mRecyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,7 +23,15 @@ public class SearchActivity extends AppCompatActivity {
 
         Twitter twitter = TwitterWrapper.getTwitterInstance(getApplicationContext());
 
-        
+
+        //find the recyclerView
+        mRecyclerView = (RecyclerView) findViewById(R.id.result_recycler);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+
     }
 
     @Override
