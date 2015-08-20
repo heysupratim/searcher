@@ -6,6 +6,6 @@
     <color name="primaryDark">#2154e8</color>
     <color name="search_view_bg">#212121</color>
     <color name="search_view_status">#000000</color>
-    <color name="subTextColor">#44ffffff</color>
+    <color name="subTextColor">#68ffffff</color>
     <color name="card_bg">#303030</color>
 </resources>

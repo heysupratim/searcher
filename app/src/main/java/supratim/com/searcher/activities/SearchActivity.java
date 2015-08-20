@@ -47,7 +47,7 @@ public class SearchActivity extends AppCompatActivity implements TwitterSearchRe
 
         //find views
         mRecyclerView = (RecyclerView) findViewById(R.id.result_recycler);
-        mRecyclerView.setVisibility(View.INVISIBLE);
+        //mRecyclerView.setVisibility(View.INVISIBLE);
         searchView = (SearchView) findViewById(R.id.twitter_search);
         progressView = (CircularProgressView) findViewById(R.id.progress);
 

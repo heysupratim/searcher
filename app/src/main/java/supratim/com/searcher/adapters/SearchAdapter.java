@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import supratim.com.searcher.R;
@@ -62,7 +64,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             Status tweet = tweets.get(position);
             holder.handle.setText("@"+tweet.getUser().getScreenName());
             holder.tweet.setText(tweet.getText());
-            holder.timeStamp.setText(tweet.getCreatedAt().toString());
+            DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
+            holder.timeStamp.setText(dateFormat.format(tweet.getCreatedAt()));
 
         }
 
