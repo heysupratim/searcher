@@ -1,5 +1,5 @@
 # Searcher
-Android App to Search Tweets
+Android App to Search Tweets using Twitter4j 
 
 ##Libraries it uses
 
@@ -11,6 +11,8 @@ CircularProgressView
 ![alt tag](screenshots/screen1.png)
 ![alt tag](screenshots/screen2.png)
 ![alt tag](screenshots/screen3.png)
+
+
 
 
 
