@@ -13,6 +13,11 @@
         <!-- enable window content transitions -->
         <item name="android:windowContentTransitions">true</item>
 
+        <!-- specify enter and exit transitions -->
+        <item name="android:windowEnterTransition">@android:transition/explode</item>
+        <item name="android:windowExitTransition">@android:transition/explode</item>
+
+
         <item name="android:windowBackground">@color/search_view_bg</item>
         <item name="android:colorPrimaryDark">@color/search_view_status</item>
     </style>
