@@ -1,6 +1,8 @@
 package supratim.com.searcher.activities;
 
+import android.animation.Animator;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.widget.SearchView;
 
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
@@ -36,10 +39,13 @@ public class SearchActivity extends AppCompatActivity implements TwitterSearchRe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_activity);
 
+        final View view = findViewById(R.id.main_search_view);
+
         context = this;
 
         //find views
         mRecyclerView = (RecyclerView) findViewById(R.id.result_recycler);
+        mRecyclerView.setVisibility(View.INVISIBLE);
         searchView = (SearchView) findViewById(R.id.twitter_search);
         progressView = (CircularProgressView) findViewById(R.id.progress);
 
@@ -51,6 +57,28 @@ public class SearchActivity extends AppCompatActivity implements TwitterSearchRe
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(searchAdapter);
 
+
+    }
+
+
+    void enterReveal(View myView) {
+
+        // get the center for the clipping circle
+        int cx = myView.getMeasuredWidth() / 2;
+        int cy = myView.getMeasuredHeight() / 2;
+
+        // get the final radius for the clipping circle
+        int finalRadius = Math.max(myView.getWidth(), myView.getHeight()) / 2;
+
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            // create the animator for this view (the start radius is zero)
+            Animator anim = ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
+
+            // make the view visible and start the animation
+            myView.setVisibility(View.VISIBLE);
+            anim.start();
+        }
 
     }
 
@@ -80,6 +108,7 @@ public class SearchActivity extends AppCompatActivity implements TwitterSearchRe
     public void finishSuccess(List<Status> statuses) {
         searchAdapter.setData(statuses);
         searchAdapter.notifyDataSetChanged();
+        enterReveal(mRecyclerView);
         searchFetchTask.cancel(true);
         stopProgress();
     }
