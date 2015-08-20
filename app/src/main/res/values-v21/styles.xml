@@ -3,7 +3,8 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="android:colorPrimaryDark">@color/primaryDark</item>
+        <!--<item name="android:navigationBarColor">@color/navBarColor</item>
+        <item name="android:colorPrimaryDark">@color/transparent</item>-->
     </style>
 
     <style name="SearchTheme" parent="Theme.AppCompat.NoActionBar">
