@@ -1,35 +1,55 @@
 package supratim.com.searcher.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.SearchView;
+
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
+
+import java.util.List;
 
 import supratim.com.searcher.R;
-import supratim.com.searcher.twitter.TwitterWrapper;
-import twitter4j.Twitter;
+import supratim.com.searcher.adapters.SearchAdapter;
+import supratim.com.searcher.asyncTasks.TwitterSearchFetch;
+import supratim.com.searcher.twitter.TwitterSearchRequester;
+import twitter4j.Status;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements TwitterSearchRequester{
 
     private LinearLayoutManager mLayoutManager;
+    private SearchView searchView;
     private RecyclerView mRecyclerView;
+    private SearchAdapter searchAdapter;
+    private SearchListener searchListener;
+    private TwitterSearchFetch searchFetchTask;
+    private Context context;
+    private CircularProgressView progressView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_activity);
 
-        Twitter twitter = TwitterWrapper.getTwitterInstance(getApplicationContext());
+        context = this;
 
-
-        //find the recyclerView
+        //find views
         mRecyclerView = (RecyclerView) findViewById(R.id.result_recycler);
+        searchView = (SearchView) findViewById(R.id.twitter_search);
+        progressView = (CircularProgressView) findViewById(R.id.progress);
 
-        // use a linear layout manager
+        searchListener = new SearchListener();
+        searchView.setOnQueryTextListener(searchListener);
+
+        searchAdapter = new SearchAdapter();
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(searchAdapter);
 
 
     }
@@ -54,5 +74,49 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void finishSuccess(List<Status> statuses) {
+        searchAdapter.setData(statuses);
+        searchAdapter.notifyDataSetChanged();
+        searchFetchTask.cancel(true);
+        stopProgress();
+    }
+
+    private class SearchListener implements SearchView.OnQueryTextListener{
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+
+            if(!query.isEmpty()){
+                startProgress();
+                String[] params = new String[]{query};
+                searchFetchTask = new TwitterSearchFetch(context,SearchActivity.this);
+                searchFetchTask.execute(params);
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            if(newText.isEmpty()){
+                searchAdapter.setData(null);
+                searchAdapter.notifyDataSetChanged();
+            }
+            return false;
+        }
+    }
+
+    private void startProgress(){
+        progressView.setVisibility(View.VISIBLE);
+        progressView.startAnimation();
+    }
+
+    private void stopProgress(){
+        progressView.setVisibility(View.GONE);
     }
 }
