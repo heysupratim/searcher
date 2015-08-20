@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
 
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
@@ -23,7 +24,7 @@ import supratim.com.searcher.asyncTasks.TwitterSearchFetch;
 import supratim.com.searcher.twitter.TwitterSearchRequester;
 import twitter4j.Status;
 
-public class SearchActivity extends AppCompatActivity implements TwitterSearchRequester{
+public class SearchActivity extends AppCompatActivity implements TwitterSearchRequester {
 
     private LinearLayoutManager mLayoutManager;
     private SearchView searchView;
@@ -38,7 +39,7 @@ public class SearchActivity extends AppCompatActivity implements TwitterSearchRe
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        overridePendingTransition(R.anim.slide_up,R.anim.abc_fade_out);
+        overridePendingTransition(R.anim.slide_up, R.anim.abc_fade_out);
         setContentView(R.layout.search_activity);
 
         final View view = findViewById(R.id.main_search_view);
@@ -73,7 +74,7 @@ public class SearchActivity extends AppCompatActivity implements TwitterSearchRe
         int finalRadius = Math.max(myView.getWidth(), myView.getHeight()) / 2;
 
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // create the animator for this view (the start radius is zero)
             Animator anim = ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
 
@@ -115,26 +116,26 @@ public class SearchActivity extends AppCompatActivity implements TwitterSearchRe
         stopProgress();
     }
 
-    private class SearchListener implements SearchView.OnQueryTextListener{
+    private class SearchListener implements SearchView.OnQueryTextListener {
 
         @Override
         public boolean onQueryTextSubmit(String query) {
 
-            if(!query.isEmpty()){
+            if (!query.isEmpty()) {
+                hideKeyboard();
                 startProgress();
                 String[] params = new String[]{query};
-                searchFetchTask = new TwitterSearchFetch(context,SearchActivity.this);
+                searchFetchTask = new TwitterSearchFetch(context, SearchActivity.this);
                 searchFetchTask.execute(params);
                 return true;
-            }
-            else{
+            } else {
                 return false;
             }
         }
 
         @Override
         public boolean onQueryTextChange(String newText) {
-            if(newText.isEmpty()){
+            if (newText.isEmpty()) {
                 searchAdapter.setData(null);
                 searchAdapter.notifyDataSetChanged();
             }
@@ -142,12 +143,21 @@ public class SearchActivity extends AppCompatActivity implements TwitterSearchRe
         }
     }
 
-    private void startProgress(){
+    private void startProgress() {
         progressView.setVisibility(View.VISIBLE);
         progressView.startAnimation();
     }
 
-    private void stopProgress(){
+    private void stopProgress() {
         progressView.setVisibility(View.GONE);
+    }
+
+    private void hideKeyboard() {
+        // Check if no view has focus:
+        View view = SearchActivity.this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 }
