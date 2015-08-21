@@ -11,7 +11,7 @@
 bin/
 gen/
 
-
+app/src/main/assets/local.properties
 local.properties
 
 .gradle

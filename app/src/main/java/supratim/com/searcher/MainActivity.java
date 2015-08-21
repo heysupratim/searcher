@@ -112,11 +112,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupKeys() {
 
-        consumerKey = getResources().getString(R.string.twitter_consumer_key);
-        consumerSecret = getResources().getString(R.string.twitter_consumer_secret);
-        callbackUrl = getString(R.string.twitter_callback);
+        try{
+            consumerKey = Utilities.loadPropties(context).getProperty("twitter_consumer_key");
+            consumerSecret = Utilities.loadPropties(context).getProperty("twitter_consumer_secret");
+            callbackUrl = Utilities.loadPropties(context).getProperty("twitter_callback");
+        }
+        catch(Exception e){
+            Log.d("KeysException",e.getLocalizedMessage());
+        }
         oAuthVerifier = getString(R.string.twitter_oauth_verifier);
-
     }
 
 

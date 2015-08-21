@@ -5,9 +5,14 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Properties;
 
 import supratim.com.searcher.constants.Constants;
 
@@ -44,5 +49,24 @@ public class Utilities {
             customFontCache.put(fontName, typeFace);
             return typeFace;
         }
+    }
+
+
+//Write this function in your activity -
+
+    public static Properties loadPropties(Context context) throws IOException {
+        String[] fileList = { "local.properties" };
+        Properties prop = new Properties();
+        for (int i = fileList.length - 1; i >= 0; i--) {
+            String file = fileList[i];
+            try {
+                InputStream fileStream = context.getAssets().open(file);
+                prop.load(fileStream);
+                fileStream.close();
+            }  catch (FileNotFoundException e) {
+                Log.e("Property file Exception", "Got exception " + e);
+            }
+        }
+        return prop;
     }
 }
